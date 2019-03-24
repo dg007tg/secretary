@@ -1,0 +1,760 @@
+﻿<!-- Created: 23/03/2019 by Administrator -->
+{%load staticfiles%}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional/EN">
+<html>
+  <head>
+    <title>Home</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="PyScripter">
+  </head>
+  <body>
+    <script src = "{%static 'js/jquery-3.3.1.js'%}"></script>
+    <link rel = "stylesheet" href = "{%static 'css/bootstrap.min.css'%}">
+    <script src = "{%static 'js/jquery-cookie.js'%}"></script>
+    <script src = "{%static 'js/bootstrap.min.js'%}"></script>
+    <link rel = "stylesheet" href = "{%static 'css/bootstrap-table.css'%}">
+    <script src = "{%static 'js/bootstrap-table.js'%}"></script>
+    <div>
+        <table class="table">
+            <caption><center>报表细项-收入</center></caption>
+            <thead>
+                <tr>
+                    <th>项目</th>
+                    <th>金额</th>
+                    <th>定义</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        赞助费
+                    </td>
+                    <td>
+                        <form role="form">
+                            <input type="text" class="form-control" id="support-fee" value="0">
+                        </form>
+                    </td>
+                    <td>
+                        赞助费的定义。
+                    </td>
+                    <td>
+                        <button class="btn btn-default" id="btn-support-fee" onclick="modify_income_details(11);">修改</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        护理费
+                    </td>
+                    <td>
+                        <form role="form">
+                            <input type="text" class="form-control" id="nursing-fee" value="0">
+                        </form>
+                    </td>
+                    <td>
+                        护理费费的定义。
+                    </td>
+                    <td>
+                        <button class="btn btn-default" id="btn-nursing-fee" onclick="modify_income_details(12);">修改</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        太平间使用费
+                    </td>
+                    <td>
+                        <form role="form">
+                            <input type="text" class="form-control" id="mortuary-fee" value="0">
+                        </form>
+                    </td>
+                    <td>
+                        太平间使用费的定义。
+                    </td>
+                    <td>
+                        <button class="btn btn-default" id="btn-mortuary-fee" onclick="modify_income_details(13);">修改</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        其他
+                    </td>
+                    <td>
+                        <form role="form">
+                            <input type="text" class="form-control" id="other-income-fee" value="0">
+                        </form>
+                    </td>
+                    <td>
+                        药品收入房租，还款。
+                    </td>
+                    <td>
+                        <button class="btn btn-default" id="btn-other-income-fee" onclick="modify_income_details(14);">修改</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="table">
+            <thead>
+                <caption><center>报表细项-支出</center></caption>
+                <tr>
+                    <th>项目</th>
+                    <th>金额</th>
+                    <th>定义</th>
+                    <th>操作</th>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td>
+                            工资
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="salary-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            发给员工的工资、奖金等。
+                        </td>
+                        <td>
+                            <button class="btn btn-default" id="btn-salary-fee" onclick="modify_salary_detail();">修改</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            伙食费
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="food-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            伙食费的定义。
+                        </td>
+                        <td>
+                            <button class="btn btn-default" id="btn-food-fee" onclick="modify_fee_detail(0);">修改</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            水电费
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="utility-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            水电费的定义。
+                        </td>
+                        <td>
+                            <button class="btn btn-default" id="btn-utility-fee" onclick="modify_fee_detail(1);">修改</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            维修费
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="maintenance-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            维修费的定义。
+                        </td>
+                        <td>
+                            <button class="btn btn-default" id="btn-maintenance-fee" onclick="modify_fee_detail(2);">修改</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            建筑费
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="build-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            建筑费的定义。
+                        </td>
+                        <td>
+                            <button class="btn btn-default" id="btn-build-fee" onclick="modify_fee_detail(3);">修改</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            消耗品费
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="comsumables-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            药费、尿片等老人用品。
+                        </td>
+                        <td>
+                            <button class="btn btn-default" id="btn-comsumables-fee" onclick="modify_fee_detail(4);">修改</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            设备费
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="facility-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            设备费的定义。
+                        </td>
+                        <td>
+                            <button class="btn btn-default" id="btn-facility-fee" onclick="modify_fee_detail(5);">修改</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            其他
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="other-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            其他费用的定义。
+                        </td>
+                        <td>
+                            <button class="btn btn-default" id="btn-other-fee" onclick="modify_fee_detail(6);">修改</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            租金
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="rent-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            租金的定义。
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            退护理费
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="returned-nursing-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            退护理费的定义。
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            垃圾费
+                        </td>
+                        <td>
+                            <form role="form">
+                                <input type="text" class="form-control" id="trash-fee" value="0">
+                            </form>
+                        </td>
+                        <td>
+                            垃圾费的定义。
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </thead>
+        </table>
+    </div>
+    <div style="text-align:center;">
+        <button class="btn btn-default" onclick="submit_report();">提交</button>
+        <button class="btn btn-default" onclick="reset_report();">重置</button>
+    </div>
+    <div class = "modal fade" id="income-details" tabindex="-1"
+            role="dialog" aria-labelledby="Details" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        收入细项
+                    </div>
+                    <div class="modal-body">
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <button class = "btn btn-default" title = "新增记录">
+                                    <i class="glyphicon glyphicon-plus" id="add-income-record" onclick="add_income_record()"></i>
+                                </button>
+                                <button class = "btn btn-default" title = "删除选中记录">
+                                    <i class = "glyphicon glyphicon-trash" id="del-income-record"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>日期</th>
+                                        <th>名称</th>
+                                        <th>数额</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id = "income-details-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btn-submit-income-details">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!--/.modal-dialog-->
+    </div>
+    <div class = "modal fade" id="salary-details" tabindex="-1"
+            role="dialog" aria-labelledby="Details" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        工资细项
+                    </div>
+                    <div class="modal-body">
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <button class = "btn btn-default" title = "新增记录">
+                                    <i class="glyphicon glyphicon-plus" id="add-salary-record" onclick="add_salary_record()"></i>
+                                </button>
+                                <button class = "btn btn-default" title = "删除选中记录">
+                                    <i class = "glyphicon glyphicon-trash" id="del-salary-record"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>日期</th>
+                                        <th>姓名</th>
+                                        <th>职称</th>
+                                        <th>薪酬</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id = "salary-details-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btn-submit-salary-details">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!--/.modal-dialog-->
+    </div>
+    <div class = "modal fade" id="fee-details" tabindex="-1"
+            role="dialog" aria-labelledby="Details" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        支出细项
+                    </div>
+                    <div class="modal-body">
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <button class = "btn btn-default" title = "新增记录">
+                                    <i class="glyphicon glyphicon-plus" id="add-fee-record" onclick="add_fee_record()"></i>
+                                </button>
+                                <button class = "btn btn-default" title = "删除选中记录">
+                                    <i class = "glyphicon glyphicon-trash" id="del-fee-record"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>日期</th>
+                                        <th>名称</th>
+                                        <th>数额</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id = "fee-details-body"></tbody>
+                            </table>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btn-submit-fee-details">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancel_fee_records()">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!--/.modal-dialog-->
+    </div>
+    <script>
+        function modify_income_details(fee_type){
+            display_records(fee_type);
+            $("#btn-submit-income-details").unbind("click").click(function(){
+                confirm_income_records(fee_type);
+            });
+            $("#income-details").modal('show');
+        }
+        function modify_fee_detail(fee_type){
+            display_records(fee_type);
+            $("#btn-submit-fee-details").unbind("click").click(function(){
+                confirm_fee_records(fee_type);
+            });
+            $("#fee-details").modal('show');
+        }
+        function modify_salary_detail(){
+            display_records(SALARY_FEE);
+            $("#btn-submit-salary-details").unbind("click").click(function(){
+                confirm_salary_records(SALARY_FEE);
+            });
+            $("#salary-details").modal('show');
+        }
+    </script>
+    <script>
+        //Constants are defined here.
+        //spending fee types
+        var FOOD_FEE = 0;
+        var UTILITY_FEE = 1;
+        var MAINTENANCE_FEE = 2;
+        var BUILD_FEE = 3;
+        var COMSUMABLES_FEE = 4;
+        var FACILITY_FEE = 5;
+        var OTHER_FEE = 6;
+        var RENT_FEE = 7;
+        var TRASH_FEE = 8;
+        var RETURNED_NURSING_FEE = 9;
+        var SALARY_FEE = 10;
+        //income types
+        var SUPPORT_FEE = 11;
+        var NURSING_FEE = 12;
+        var MORTUARY_FEE = 13;
+        var INCOME_FEE = 14;
+        //store data(define all infomation to be submitted)
+        var data={
+            "FOOD_FEE": -1,
+            "UTILITY_FEE": -1,
+            "MAINTENANCE_FEE": -1,
+            "BUILD_FEE": -1,
+            "COMSUMABLES_FEE": -1,
+            "FACILITY_FEE": -1,
+            "OTHER_FEE": -1,
+            "RENT_FEE": -1,
+            "TRASH_FEE": -1,
+            "RETURNED_NURSING_FEE": -1,
+            "SALARY_FEE": -1,
+            "SUPPORT_FEE": -1,
+            "NURSING_FEE": -1,
+            "MORTUARY_FEE": -1,
+            "INCOME_FEE": -1
+        };
+        //define all the names
+        var name_list = ["FOOD_FEE",
+        "UTILITY_FEE",
+        "MAINTENANCE_FEE",
+        "BUILD_FEE",
+        "COMSUMABLES_FEE",
+        "FACILITY_FEE",
+        "OTHER_FEE",
+        "RENT_FEE",
+        "TRASH_FEE",
+        "RETURNED_NURSING_FEE",
+        "SALARY_FEE",
+        "SUPPORT_FEE",
+        "NURSING_FEE",
+        "MORTUARY_FEE",
+        "INCOME_FEE",]
+
+        //help to locate each input box on page
+        var item_list = ["#food-fee",
+        "#utility-fee",
+        "#maintenance-fee",
+        "#build-fee",
+        "#comsumables-fee",
+        "#facility-fee",
+        "#other-fee",
+        "#rent-fee",
+        "#trash-fee",
+        "#returned-nursing-fee",
+        "#salary-fee",
+        "#support-fee",
+        "#nursing-fee",
+        "#mortuary-fee",
+        "#income-fee",]
+
+        //gennerate template for fee record
+        function gen_fee_record(){
+            var date = new Date();
+            var fee_record = "<tr id=\"fee-record-"+num_fee_records+"\"><td>"
+            +"<input type=\"text\" class=\"form-control\" value="
+            +date.toLocaleDateString()
+            +" id=\"fee-record-date-"+num_fee_records+"\"></input>"
+            +"</td><td>"
+            +"<input type=\"text\" class=\"form-control\" id=\"fee-record-name-"+num_fee_records+"\"></input>"
+            +"</td><td>"
+            +"<input type=\"text\" class=\"form-control\" id=\"fee-record-amount-"+num_fee_records+"\"></input>"
+            +"</td><td>"
+            +"<button class=\"btn btn-default\" onclick=\"del_fee_record("+num_fee_records+")\">删除</button>"
+            +"</td></tr>";
+            num_fee_records++;
+            return fee_record;
+        }
+        function add_fee_record(){
+            $("#fee-details-body").append(gen_fee_record());
+        }
+        function del_fee_record(id){
+            var line = "#fee-record-"+id;
+            $(line).remove();
+        }
+        function confirm_fee_records(fee_type){
+            data[name_list[fee_type]] = -1;
+            var sum = 0;
+            for(var idx = 0; idx < num_fee_records; idx++){
+                date = "#fee-record-date-" + idx;
+                name = "#fee-record-name-" + idx;
+                amount = "#fee-record-amount-" + idx;
+                var record = {
+                    "date": $(date).val(),
+                    "name": $(name).val(),
+                    "amount": $(amount).val()
+                };
+                if(data[name_list[fee_type]] == -1){
+                    data[name_list[fee_type]] = new Array(record);
+                }else{
+                    data[name_list[fee_type]].push(record);
+                }
+                sum += parseFloat($(amount).val());
+            }
+            $(item_list[fee_type]).attr("value", sum);
+            $("#fee-details-body").empty();
+            num_fee_records = 0;
+            $("#fee-details").modal("hide");
+        }
+        function cancel_fee_records(){
+            $("#fee-details-body").empty();
+            num_fee_records = 0;
+        }
+
+        //functions correspond to salary records
+        function gen_salary_record(){
+            var date = new Date();
+            var salary_record = "<tr id=\"salary-record-"+num_salary_records+"\"><td>"
+            +"<input type=\"text\" class=\"form-control\" value="
+            +date.toLocaleDateString()
+            +" id=\"salary-record-date-"+num_salary_records+"\"></input>"
+            +"</td><td>"
+            +"<input type=\"text\" class=\"form-control\" id=\"salary-record-name-"+num_salary_records+"\"></input>"
+            +"</td><td>"
+            +"<input type=\"text\" class=\"form-control\" id=\"salary-record-title-"+num_salary_records+"\"></input>"
+            +"</td><td>"
+            +"<input type=\"text\" class=\"form-control\" id=\"salary-record-amount-"+num_salary_records+"\"></input>"
+            +"</td><td>"
+            +"<button class=\"btn btn-default\" onclick=\"del_salary_record("+num_salary_records+")\">删除</button>"
+            +"</td></tr>";
+            num_salary_records++;
+            return salary_record;
+        }
+        function add_salary_record(){
+            $("#salary-details-body").append(gen_salary_record());
+        }
+        function del_salary_record(id){
+            var line = "#salary-record-"+id;
+            $(line).remove();
+        }
+        function confirm_salary_records(fee_type){
+            data[name_list[fee_type]] = -1;
+            var sum = 0;
+            for(var idx = 0; idx < num_salary_records; idx++){
+                date = "#salary-record-date-" + idx;
+                name = "#salary-record-name-" + idx;
+                title = "#salary-record-title-" + idx;
+                amount = "#salary-record-amount-" + idx;
+                var record = {
+                    "date": $(date).val(),
+                    "name": $(name).val(),
+                    "title": $(title).val(),
+                    "amount": $(amount).val()
+                };
+                if(data[name_list[fee_type]] == -1){
+                    data[name_list[fee_type]] = new Array(record);
+                }else{
+                    data[name_list[fee_type]].push(record);
+                }
+                sum += parseFloat($(amount).val());
+            }
+            $(item_list[fee_type]).attr("value", sum);
+            $("#salary-details-body").empty();
+            num_salary_records = 0;
+            $("#salary-details").modal('hide');
+        }
+        function cancel_salary_records(){
+            $("#salary-details-body").empty();
+            num_salary_records = 0;
+        }
+
+        //functions correspond to income records
+        function gen_income_record(){
+            var date = new Date();
+            var income_record = "<tr id=\"income-record-"+num_income_records+"\"><td>"
+            +"<input type=\"text\" class=\"form-control\" value="
+            +date.toLocaleDateString()
+            +" id=\"income-record-date-"+num_income_records+"\"></input>"
+            +"</td><td>"
+            +"<input type=\"text\" class=\"form-control\" id=\"income-record-name-"+num_income_records+"\"></input>"
+            +"</td><td>"
+            +"<input type=\"text\" class=\"form-control\" id=\"income-record-amount-"+num_income_records+"\"></input>"
+            +"</td><td>"
+            +"<button class=\"btn btn-default\" onclick=\"del_income_record("+num_income_records+")\">删除</button>"
+            +"</td></tr>";
+            num_income_records++;
+            return income_record;
+        }
+        function add_income_record(){
+            $("#income-details-body").append(gen_income_record());
+        }
+        function del_income_record(id){
+            var line = "#income-record-"+id;
+            $(line).remove();
+        }
+        function confirm_income_records(fee_type){
+            data[name_list[fee_type]] = -1;
+            var sum = 0;
+            for(var idx = 0; idx < num_income_records; idx++){
+                date = "#income-record-date-" + idx;
+                name = "#income-record-name-" + idx;
+                amount = "#income-record-amount-" + idx;
+                var record = {
+                    "date": $(date).val(),
+                    "name": $(name).val(),
+                    "amount": $(amount).val()
+                };
+                if(data[name_list[fee_type]] == -1){
+                    data[name_list[fee_type]] = new Array(record);
+                }else{
+                    data[name_list[fee_type]].push(record);
+                }
+                sum += parseFloat($(amount).val());
+            }
+            $(item_list[fee_type]).attr("value", sum);
+            $("#income-details-body").empty();
+            num_income_records = 0;
+            $("#income-details").modal('hide');
+        }
+        function cancel_income_records(){
+            $("#income-details-body").empty();
+            num_income_records = 0;
+        }
+
+        //show records if exists.
+        function display_records(fee_type){
+            if(fee_type == SALARY_FEE){
+                if(data[name_list[fee_type]] != -1){
+                    num_salary_records = data[name_list[fee_type]].length;
+                    for(var idx=0; idx<num_salary_records; idx++){
+                        var record = "<tr id=\"salary-record-"+idx+"\"><td>"
+                            +"<input type=\"text\" class=\"form-control\" value="
+                            +data[name_list[fee_type]][idx]["date"]
+                            +" id=\"salary-record-date-"+idx+"\"></input>"
+                            +"</td><td>"
+                            +"<input type=\"text\" class=\"form-control\" id=\"salary-record-name-"+idx+"\" value=\""+data[name_list[fee_type]][idx]["name"]+"\"></input>"
+                            +"</td><td>"
+                            +"<input type=\"text\" class=\"form-control\" id=\"salary-record-title-"+idx+"\" value=\""+data[name_list[fee_type]][idx]["title"]+"\"></input>"
+                            +"</td><td>"
+                            +"<input type=\"text\" class=\"form-control\" id=\"salary-record-amount-"+idx+"\" value=\""+data[name_list[fee_type]][idx]["amount"]+"\"></input>"
+                            +"</td><td>"
+                            +"<button class=\"btn btn-default\" onclick=\"del_salary_record("+idx+")\">删除</button>"
+                            +"</td></tr>";
+                        $("#salary-details-body").append(record);
+                    }
+                }
+            }
+            if(fee_type>=FOOD_FEE && fee_type<=RETURNED_NURSING_FEE){
+                if(data[name_list[fee_type]] != -1){
+                    num_fee_records = data[name_list[fee_type]].length;
+                    for(var idx=0; idx<num_fee_records; idx++){
+                        var record = "<tr id=\"fee-record-"+idx+"\"><td>"
+                            +"<input type=\"text\" class=\"form-control\" value="
+                            +data[name_list[fee_type]][idx]["date"]
+                            +" id=\"fee-record-date-"+idx+"\"></input>"
+                            +"</td><td>"
+                            +"<input type=\"text\" class=\"form-control\" id=\"fee-record-name-"+idx+"\" value=\""+data[name_list[fee_type]][idx]["name"]+"\"></input>"
+                            +"</td><td>"
+                            +"<input type=\"text\" class=\"form-control\" id=\"fee-record-amount-"+idx+"\" value=\""+data[name_list[fee_type]][idx]["amount"]+"\"></input>"
+                            +"</td><td>"
+                            +"<button class=\"btn btn-default\" onclick=\"del_fee_record("+idx+")\">删除</button>"
+                            +"</td></tr>";
+                        $("#fee-details-body").append(record);
+                    }
+                }
+            }
+            if(fee_type>=SUPPORT_FEE && fee_type<=INCOME_FEE){
+                type = 0;
+                if(data[name_list[fee_type]] != -1){
+                    num_income_records = data[name_list[fee_type]].length;
+                    for(var idx=0; idx<num_income_records; idx++){
+                        var record = "<tr id=\"income-record-"+idx+"\"><td>"
+                            +"<input type=\"text\" class=\"form-control\" value="
+                            +data[name_list[fee_type]][idx]["date"]
+                            +" id=\"income-record-date-"+idx+"\"></input>"
+                            +"</td><td>"
+                            +"<input type=\"text\" class=\"form-control\" id=\"income-record-name-"+idx+"\" value=\""+data[name_list[fee_type]][idx]["name"]+"\"></input>"
+                            +"</td><td>"
+                            +"<input type=\"text\" class=\"form-control\" id=\"income-record-amount-"+idx+"\" value=\""+data[name_list[fee_type]][idx]["amount"]+"\"></input>"
+                            +"</td><td>"
+                            +"<button class=\"btn btn-default\" onclick=\"del_income_record("+idx+")\">删除</button>"
+                            +"</td></tr>";
+                        $("#income-details-body").append(record);
+                    }
+                }
+            }
+        };
+
+        function submit_report(){
+            //first of all, checking legality
+            /*var legal_amount_pattern = /^[0-9]+(\.\d{0,2})?$/;
+            for(var idx = 0; idx < name_list.length; idx++){
+                if(data[name_list[idx]] == -1){
+                    alert("你还没把所有的财务数据登记完！");
+                    return;
+                }
+                if(!legal_amount_pattern.test($(item_list[idx]).text())){
+                    alert("存在非法数字输入：数额应当为数字且数字小数位数应小于两位或不存在。");
+                    return;
+                }
+            }*/
+            console.log(JSON.stringify(data));
+            //send request here.
+        }
+
+        function reset_report(){
+            $("#trash-fee").attr("value", "0");
+            for(var idx = 0; idx < item_list.length; idx++){
+                $(item_list[idx]).val("0");
+            }
+            for(var idx = 0; idx < name_list.length; idx++){
+                data[name_list[idx]] = -1;
+            }
+        }
+    </script>
+    <script>
+    //some initialization and global variable
+    //number of fee records, used to identify each record.
+    var num_fee_records = 0;
+    //number of income records, used to identify each record.
+    var num_income_records = 0;
+    //number of salary records, used to identify each record.
+    var num_salary_records = 0;
+    </script>
+  </body>
+</html>

@@ -20,5 +20,10 @@ from . import view
 from . import settings
 
 urlpatterns = [
-    url('', view.SignIn),
+    url(r'^$', view.SignIn),
+    url(r'^user-api/registration/details$', view.RegistrationDetails),
+    url(r'^user-api/report$', view.Index),
+    url(r'^user-api/report/home$', view.Home),
+    url(r'^user-api/report/add$', view.AddReport),
+    url(r'^user-api/report/view$', view.ViewReport),
 ]

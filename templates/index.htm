@@ -1,0 +1,105 @@
+﻿<!-- Created: 24/03/2019 by Administrator -->
+{%load staticfiles%}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional/EN">
+<html>
+  <head>
+    <title>Browser</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="PyScripter">
+    <script src = "{%static 'js/jquery-3.3.1.js'%}"></script>
+    <link rel = "stylesheet" href = "{%static 'css/bootstrap.min.css'%}">
+    <script src = "{%static 'js/jquery-cookie.js'%}"></script>
+    <script src = "{%static 'js/bootstrap.min.js'%}"></script>
+    <style>
+        #nav{
+            width:200px;
+            height:100%;
+            background:#C8C8C8;
+            position:absolute;
+            left:-200px;
+        }
+        #nav span{
+            display: block;
+            background: #C8C8C8;
+            width: 30px;
+            height: 90px;
+            border-radius: 0 4px 4px 0;
+            font-size: 20px;
+            line-height: 30px;
+            position: relative;
+            left:201px;
+            top:32%;
+        }
+    </style>
+    <script>
+        //window.onresize  处理在窗口放大缩小时，侧边栏的位置
+        //window.onload  处理在窗口加载时，侧边栏的位置
+        //window.onscroll  处理在窗口滚动时，侧边栏的位置
+        window.onresize = window.onload =  window.onscroll = function(){
+            var nav = document.getElementById("nav");
+            //在不同的浏览器中一下document.documentElement.scrollTop，document.body.scrollTop  这两个值总会有一个恒为0
+            var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+            var t = (document.documentElement.clientHeight - nav.offsetHeight)/2;
+            nav.style.top = scrollTop + t + "px";
+        }
+        $(function(){
+            $("#nav").mouseenter(function(){
+                $(this).animate({left:"0px"});
+            });
+            $("#nav").mouseleave(function(){
+                $(this).animate({left:"-200px"});
+            });
+        });
+    </script>
+  </head>
+  <body>
+        <div id="nav">
+            <span></span>
+            <p><center>菜单</center></p>
+            <ul class="nav nav-pills nav-stacked">
+            	<li id="page-home" class = "active"><a href="#" onclick="nav_select_page(0);return false;"><center>首页</center></a></li>
+            	<li id="page-gen-report"><a href="#" onclick="nav_select_page(1);return false;"><center>创建报表</center></a></li>
+            	<li id="page-view-report"><a href="#" onclick="nav_select_page(2);return false;"><center>查看报表</center></a></li>
+            </ul>
+        </div>
+        <div id="content"></div>
+  </body>
+  <script>
+    $(function(){
+        nav_select_page(PAGE_HOME);
+    });
+    function nav_select_page(page_num){
+        var page = "#" + page_list[current_page];
+        $(page).removeClass("active");
+        current_page = page_num;
+        page = "#" + page_list[current_page];
+        switch(page_num){
+            case PAGE_HOME:
+                $("#content").load("/user-api/report/home");
+                $(page).addClass("active");
+                break;
+            case PAGE_GEN_REPORT:
+                $("#content").load("/user-api/report/add");
+                $(page).addClass("active");
+                break;
+            case PAGE_VIEW_REPORT:
+                $("#content").load("/user-api/report/view");
+                $(page).addClass("active");
+                break;
+        }
+    }
+  </script>
+  <script>
+  //definition of global variables
+  var current_page = 0;
+  </script>
+  <script>
+  //definition of const
+  //define page name in navigation bar
+  page_list = ["page-home", "page-gen-report", "page-view-report"]
+  //pages' id
+  PAGE_HOME = 0;
+  PAGE_GEN_REPORT = 1;
+  PAGE_VIEW_REPORT = 2;
+  </script>
+</html>
