@@ -6,214 +6,73 @@
     <title>Home</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="generator" content="PyScripter">
-  </head>
-  <body>
     <script src = "{%static 'js/jquery-3.3.1.js'%}"></script>
     <link rel = "stylesheet" href = "{%static 'css/bootstrap.min.css'%}">
     <script src = "{%static 'js/jquery-cookie.js'%}"></script>
     <script src = "{%static 'js/bootstrap.min.js'%}"></script>
     <link rel = "stylesheet" href = "{%static 'css/bootstrap-table.css'%}">
     <script src = "{%static 'js/bootstrap-table.js'%}"></script>
-    <div>
-        <table class="table">
-            <caption><center>报表细项-收入</center></caption>
-            <thead>
-                <tr>
-                    <th>项目</th>
-                    <th>金额</th>
-                    <th>定义</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        赞助费
-                    </td>
-                    <td>
-                        <form role="form">
-                            <input type="text" class="form-control" id="support-fee" value="0">
-                        </form>
-                    </td>
-                    <td>
-                        赞助费的定义。
-                    </td>
-                    <td>
-                        <button class="btn btn-default" id="btn-support-fee" onclick="modify_income_details(11);">修改</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        护理费
-                    </td>
-                    <td>
-                        <form role="form">
-                            <input type="text" class="form-control" id="nursing-fee" value="0">
-                        </form>
-                    </td>
-                    <td>
-                        护理费费的定义。
-                    </td>
-                    <td>
-                        <button class="btn btn-default" id="btn-nursing-fee" onclick="modify_income_details(12);">修改</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        太平间使用费
-                    </td>
-                    <td>
-                        <form role="form">
-                            <input type="text" class="form-control" id="mortuary-fee" value="0">
-                        </form>
-                    </td>
-                    <td>
-                        太平间使用费的定义。
-                    </td>
-                    <td>
-                        <button class="btn btn-default" id="btn-mortuary-fee" onclick="modify_income_details(13);">修改</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        其他
-                    </td>
-                    <td>
-                        <form role="form">
-                            <input type="text" class="form-control" id="other-income-fee" value="0">
-                        </form>
-                    </td>
-                    <td>
-                        药品收入房租，还款。
-                    </td>
-                    <td>
-                        <button class="btn btn-default" id="btn-other-income-fee" onclick="modify_income_details(14);">修改</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div>
-        <table class="table">
-            <thead>
-                <caption><center>报表细项-支出</center></caption>
-                <tr>
-                    <th>项目</th>
-                    <th>金额</th>
-                    <th>定义</th>
-                    <th>操作</th>
-                </tr>
+  </head>
+  <body>
+    <div id="main-content">
+        <div>
+            <table class="table">
+                <caption><center>报表细项-收入</center></caption>
+                <thead>
+                    <tr>
+                        <th>项目</th>
+                        <th>金额</th>
+                        <th>定义</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td>
-                            工资
+                            赞助费
                         </td>
                         <td>
                             <form role="form">
-                                <input type="text" class="form-control" id="salary-fee" value="0">
+                                <input type="text" class="form-control" id="support-fee" value={{FLOWS.SUPPORT_FEE}}>
                             </form>
                         </td>
                         <td>
-                            发给员工的工资、奖金等。
+                            赞助费的定义。
                         </td>
                         <td>
-                            <button class="btn btn-default" id="btn-salary-fee" onclick="modify_salary_detail();">修改</button>
+                            <button class="btn btn-default" id="btn-support-fee" onclick="modify_income_details(11);">修改</button>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            伙食费
+                            护理费
                         </td>
                         <td>
                             <form role="form">
-                                <input type="text" class="form-control" id="food-fee" value="0">
+                                <input type="text" class="form-control" id="nursing-fee" value={{FLOWS.NURSING_FEE}}>
                             </form>
                         </td>
                         <td>
-                            伙食费的定义。
+                            护理费费的定义。
                         </td>
                         <td>
-                            <button class="btn btn-default" id="btn-food-fee" onclick="modify_fee_detail(0);">修改</button>
+                            <button class="btn btn-default" id="btn-nursing-fee" onclick="modify_income_details(12);">修改</button>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            水电费
+                            太平间使用费
                         </td>
                         <td>
                             <form role="form">
-                                <input type="text" class="form-control" id="utility-fee" value="0">
+                                <input type="text" class="form-control" id="mortuary-fee" value={{FLOWS.MORTUARY_FEE}}>
                             </form>
                         </td>
                         <td>
-                            水电费的定义。
+                            太平间使用费的定义。
                         </td>
                         <td>
-                            <button class="btn btn-default" id="btn-utility-fee" onclick="modify_fee_detail(1);">修改</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            维修费
-                        </td>
-                        <td>
-                            <form role="form">
-                                <input type="text" class="form-control" id="maintenance-fee" value="0">
-                            </form>
-                        </td>
-                        <td>
-                            维修费的定义。
-                        </td>
-                        <td>
-                            <button class="btn btn-default" id="btn-maintenance-fee" onclick="modify_fee_detail(2);">修改</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            建筑费
-                        </td>
-                        <td>
-                            <form role="form">
-                                <input type="text" class="form-control" id="build-fee" value="0">
-                            </form>
-                        </td>
-                        <td>
-                            建筑费的定义。
-                        </td>
-                        <td>
-                            <button class="btn btn-default" id="btn-build-fee" onclick="modify_fee_detail(3);">修改</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            消耗品费
-                        </td>
-                        <td>
-                            <form role="form">
-                                <input type="text" class="form-control" id="comsumables-fee" value="0">
-                            </form>
-                        </td>
-                        <td>
-                            药费、尿片等老人用品。
-                        </td>
-                        <td>
-                            <button class="btn btn-default" id="btn-comsumables-fee" onclick="modify_fee_detail(4);">修改</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            设备费
-                        </td>
-                        <td>
-                            <form role="form">
-                                <input type="text" class="form-control" id="facility-fee" value="0">
-                            </form>
-                        </td>
-                        <td>
-                            设备费的定义。
-                        </td>
-                        <td>
-                            <button class="btn btn-default" id="btn-facility-fee" onclick="modify_fee_detail(5);">修改</button>
+                            <button class="btn btn-default" id="btn-mortuary-fee" onclick="modify_income_details(13);">修改</button>
                         </td>
                     </tr>
                     <tr>
@@ -222,61 +81,206 @@
                         </td>
                         <td>
                             <form role="form">
-                                <input type="text" class="form-control" id="other-fee" value="0">
+                                <input type="text" class="form-control" id="other-income-fee" value={{FLOWS.INCOME_FEE}}>
                             </form>
                         </td>
                         <td>
-                            其他费用的定义。
+                            药品收入房租，还款。
                         </td>
                         <td>
-                            <button class="btn btn-default" id="btn-other-fee" onclick="modify_fee_detail(6);">修改</button>
+                            <button class="btn btn-default" id="btn-other-income-fee" onclick="modify_income_details(14);">修改</button>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            租金
-                        </td>
-                        <td>
-                            <form role="form">
-                                <input type="text" class="form-control" id="rent-fee" value="0">
-                            </form>
-                        </td>
-                        <td>
-                            租金的定义。
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            退护理费
-                        </td>
-                        <td>
-                            <form role="form">
-                                <input type="text" class="form-control" id="returned-nursing-fee" value="0">
-                            </form>
-                        </td>
-                        <td>
-                            退护理费的定义。
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            垃圾费
-                        </td>
-                        <td>
-                            <form role="form">
-                                <input type="text" class="form-control" id="trash-fee" value="0">
-                            </form>
-                        </td>
-                        <td>
-                            垃圾费的定义。
-                        </td>
-                        <td></td>
                     </tr>
                 </tbody>
-            </thead>
-        </table>
+            </table>
+        </div>
+        <div>
+            <table class="table">
+                <thead>
+                    <caption><center>报表细项-支出</center></caption>
+                    <tr>
+                        <th>项目</th>
+                        <th>金额</th>
+                        <th>定义</th>
+                        <th>操作</th>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>
+                                工资
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="salary-fee" value={{FLOWS.SALARY_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                发给员工的工资、奖金等。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-salary-fee" onclick="modify_salary_detail();">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                伙食费
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="food-fee" value={{FLOWS.FOOD_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                伙食费的定义。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-food-fee" onclick="modify_fee_detail(0);">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                水电费
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="utility-fee" value={{FLOWS.UTILITY_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                水电费的定义。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-utility-fee" onclick="modify_fee_detail(1);">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                维修费
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="maintenance-fee" value={{FLOWS.MAINTENANCE_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                维修费的定义。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-maintenance-fee" onclick="modify_fee_detail(2);">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                建筑费
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="build-fee" value={{FLOWS.BUILD_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                建筑费的定义。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-build-fee" onclick="modify_fee_detail(3);">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                消耗品费
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="comsumables-fee" value={{FLOWS.COMSUMABLES_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                药费、尿片等老人用品。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-comsumables-fee" onclick="modify_fee_detail(4);">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                设备费
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="facility-fee" value={{FLOWS.FACILITY_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                设备费的定义。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-facility-fee" onclick="modify_fee_detail(5);">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                其他
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="other-fee" value={{FLOWS.OTHER_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                其他费用的定义。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-other-fee" onclick="modify_fee_detail(6);">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                退护理费
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="returned-nursing-fee" value={{FLOWS.RETURNED_NURSING_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                退护理费的定义。
+                            </td>
+                            <td>
+                                <button class="btn btn-default" id="btn-other-fee" onclick="modify_fee_detail(9);">修改</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                租金
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="rent-fee" value={{FLOWS.RENT_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                租金的定义。
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                垃圾费
+                            </td>
+                            <td>
+                                <form role="form">
+                                    <input type="text" class="form-control" id="trash-fee" value={{FLOWS.TRASH_FEE}}>
+                                </form>
+                            </td>
+                            <td>
+                                垃圾费的定义。
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </thead>
+            </table>
+        </div>
     </div>
     <div style="text-align:center;">
         <button class="btn btn-default" onclick="submit_report();">提交</button>

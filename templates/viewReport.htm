@@ -12,6 +12,494 @@
     <script src = "{%static 'js/bootstrap.min.js'%}"></script>
   </head>
   <body>
-    <center>All submitted reports are shown here.</center>
+    <div>
+        <form role="form" class="form-inline">
+            <div class="form-group">
+                <input type="month" class="form-control" id="report-month">
+                <button class="btn btn-default" onclick="select_report();return false;">查看该月报表</button>
+            </div>
+        </form>
+    </div>
+    <div id="report-details">
+    {%ifequal MODE "READ"%}
+        <center>收入</center>
+        <div class="panel-group" id="income">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="income" href="#collapse-support-fee">
+                            赞助费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-support-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in SUPPORT_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="income" href="#collapse-nursing-fee">
+                            护理费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-nursing-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in NURSING_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="income" href="#collapse-mortuary-fee">
+                            太平间使用费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-mortuary-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in MORTUARY_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="income" href="#collapse-income-fee">
+                            其他收入
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-income-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in INCOME_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <center>支出</center>
+        <div class="panel-group" id="overhead">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-salary-fee">
+                            工资
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-salary-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in SALARY_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.title}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-food-fee">
+                            伙食费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-food-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in FOOD_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-utility-fee">
+                            水电费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-utility-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in UTILITY_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-maintenance-fee">
+                            维修费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-maintenance-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in MAINTENANCE_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-build-fee">
+                            建筑费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-build-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in BUILD_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-comsumables-fee">
+                            消耗品费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-comsumables-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in COMSUMABLES_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-facility-fee">
+                            设备费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-facility-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in FACILITY_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-other-fee">
+                            其他
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-other-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in SUPPORT_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-returned-nursing-fee">
+                            退护理费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-returned-nursing-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in SUPPORT_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-rent-fee">
+                            租金
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-rent-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in RENT_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="overhead" href="#collapse-trash-fee">
+                            垃圾费
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-trash-fee" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                {%for row in TRASH_FEE%}
+                                <tr>
+                                    <td>
+                                        {{row.date}}
+                                    </td>
+                                    <td>
+                                        {{row.name}}
+                                    </td>
+                                    <td>
+                                        {{row.amount}}
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%endifequal%}
+    </div>
+    <script>
+    {%ifequal MODE "EDIT"%}
+        function select_report(){
+            if(!/^$/.test($("#report-month").val())){
+                url = "/user-api/report/edit?month=" + $("#report-month").val();
+                $("#report-details").load(url);
+            }
+        }
+    {%endifequal%}
+    {%ifequal MODE "READ"%}
+        function select_report(){
+            if(!/^$/.test($("#report-month").val())){
+                url = "/user-api/report/view?month=" + $("#report-month").val();
+                $("#report-details").load(url);
+            }
+        }
+    {%endifequal%}
+    </script>
   </body>
 </html>

@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^user-api/report/home$', view.Home),
     url(r'^user-api/report/add$', view.AddReport),
     url(r'^user-api/report/view$', view.ViewReport),
+    url(r'^user-api/report/edit$', view.EditReport),
 ]

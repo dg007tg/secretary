@@ -1,12 +1,102 @@
 ﻿<!-- Created: 24/03/2019 by Administrator -->
+{%load staticfiles%}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional/EN">
 <html>
   <head>
     <title>Home</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="generator" content="PyScripter">
+    <script src = "{%static 'js/jquery-3.3.1.js'%}"></script>
+    <link rel = "stylesheet" href = "{%static 'css/bootstrap.min.css'%}">
+    <script src = "{%static 'js/jquery-cookie.js'%}"></script>
+    <script src = "{%static 'js/bootstrap.min.js'%}"></script>
+    <link rel = "stylesheet" href = "{%static 'css/bootstrap-table.css'%}">
+    <script src = "{%static 'js/bootstrap-table.js'%}"></script>
   </head>
   <body>
-    <center>History reports and bank flows are displayed here</center>
+    <div>
+        <center>History reports and bank flows are displayed here</center>
+        <table id = "report-history-table"></table>
+    </div>
+    <div class="modal fade" id="modal-report" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">报表详情</h4>
+                </div>
+                <div class="modal-body" id="modal-report-body">在这里添加一些文本</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script>
+    var report_history_table;
+    $(function(){
+        report_history_table = $("#report-history-table").bootstrapTable({
+            url:"/user-api/report/home",
+            method:'GET',
+            striped:true,
+            cache:false,
+            pagination:true,
+            sortable:true,
+            sortOrder:"desc",
+            sidePagination:"server",
+            pageNumber:1,
+            pageSize:10,
+            pageList:[10,25,50,100],
+            search:false,
+            strictSearch:false,
+            showColumns:true,
+            showRefresh:true,
+            minimumCountColumns:2,
+            clockToSelect:true,
+            uniqueID:"date",
+            showToggle:true,
+            cardView:false,
+            detailVView:false,
+            queryParams:function(params){
+                var tmp = {
+                    rows:params.limit,
+                    page:(params.offset / params.limit) + 1,
+                    sort:params.sort,
+                    sortOrder:params.order
+                };
+                return tmp;
+            },
+            columns:[{
+                field:"date",
+                title:"日期",
+                sortable:true
+            },{
+                field:"amount",
+                title:"金额",
+                sortable:false
+            },{
+                field:"id",
+                title:"操作",
+                align:"center",
+                valign:"middle",
+                formatter:actionFormatter
+            }],
+            onLoadSuccess:function(){},
+            onLoadError:function(){alert("加载数据失败！");},
+        });
+    });
+    function actionFormatter(value, row, index){
+        var result = "";
+        result += "<a href='#' class='btn btn-xs green' onclick=\"viewReport('"
+                + row.date + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+        return result;
+    }
+    function viewReport(date){
+        var url = "/user-api/report/view?month="+date;
+        url += " #report-details";
+        $("#modal-report-body").load(url);
+        $("#modal-report").modal("show");
+    }
+    </script>
   </body>
 </html>

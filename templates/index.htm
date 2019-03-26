@@ -42,11 +42,18 @@
             var t = (document.documentElement.clientHeight - nav.offsetHeight)/2;
             nav.style.top = scrollTop + t + "px";
         }
+        //avoid too much animation.
+        var isVisible = false;
         $(function(){
             $("#nav").mouseenter(function(){
+                if(isVisible){
+                    return;
+                }
+                isVisible = true;
                 $(this).animate({left:"0px"});
             });
             $("#nav").mouseleave(function(){
+                isVisible = false;
                 $(this).animate({left:"-200px"});
             });
         });
@@ -59,7 +66,7 @@
             <ul class="nav nav-pills nav-stacked">
             	<li id="page-home" class = "active"><a href="#" onclick="nav_select_page(0);return false;"><center>首页</center></a></li>
             	<li id="page-gen-report"><a href="#" onclick="nav_select_page(1);return false;"><center>创建报表</center></a></li>
-            	<li id="page-view-report"><a href="#" onclick="nav_select_page(2);return false;"><center>查看报表</center></a></li>
+            	<li id="page-view-report"><a href="#" onclick="nav_select_page(2);return false;"><center>修改报表</center></a></li>
             </ul>
         </div>
         <div id="content"></div>
@@ -82,8 +89,8 @@
                 $("#content").load("/user-api/report/add");
                 $(page).addClass("active");
                 break;
-            case PAGE_VIEW_REPORT:
-                $("#content").load("/user-api/report/view");
+            case PAGE_EDIT_REPORT:
+                $("#content").load("/user-api/report/edit");
                 $(page).addClass("active");
                 break;
         }
@@ -100,6 +107,6 @@
   //pages' id
   PAGE_HOME = 0;
   PAGE_GEN_REPORT = 1;
-  PAGE_VIEW_REPORT = 2;
+  PAGE_EDIT_REPORT = 2;
   </script>
 </html>
