@@ -403,6 +403,9 @@
                 </div><!-- /.modal-content -->
             </div><!--/.modal-dialog-->
     </div>
+    <form action = "/user-api/report/add" method = "post" style = "display:none;" id = "post-report">
+        {%csrf_token%}
+    </form>
     <script>
         function modify_income_details(fee_type){
             display_records(fee_type);
@@ -737,8 +740,16 @@
                     return;
                 }
             }*/
-            console.log(JSON.stringify(data));
-            //send request here.
+            //use a POST request to send report
+            var csrf_token = $("input[name='csrfmiddlewaretoken']").val();
+            var request_content = {
+                "csrfmiddlewaretoken":csrf_token,
+                "report":JSON.stringify(data)
+            };
+            ajaxPost("/user-api/report/add", request_content, function(success){},
+                function(fail){},
+                function(loading){});
+
         }
 
         function reset_report(){
@@ -759,6 +770,52 @@
     var num_income_records = 0;
     //number of salary records, used to identify each record.
     var num_salary_records = 0;
+    </script>
+    <script>
+    //implements an post request
+    //attain ajax object
+    function ajaxObject(){
+        var xmlHttp;
+        try{
+            //for Firefox, Opera 8.0+, Safari
+            xmlHttp = new XMLHttpRequest;
+        }catch(e){
+            //for IE
+            try{
+                xmlHttp = new ActiveXObect("Msxml2.XMLHTTP");
+            } catch(e){
+                try{
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }catch(e){
+                    alert("您的浏览器不支持AJAX！");
+                    return false;
+                }
+            }
+        }
+        return xmlHttp;
+    }
+    //ajax post request
+    function ajaxPost(url, data, fnSucceed, fnFail, fnLoading){
+        var ajax = ajaxObject();
+        ajax.open("post", url, true);
+        ajax.setRequestHeader("Content-Type" , "application/x-www-form-urlencoded");
+        ajax.onreadystatechange = function(){
+            if(ajax.readyState == 4){
+                if(ajax.status == 200){
+                    fnSucceed(ajax.responseText);
+                }else{
+                    fnFail("HTTP请求错误！错误码："+ajax.status);
+                }
+            }else{
+                fnLoading();
+            }
+        }
+        var send = "";
+        Object.keys(data).forEach(function(key){
+            send += key + "=" + data[key] + "&";
+        });
+        ajax.send(send);
+    }
     </script>
   </body>
 </html>
