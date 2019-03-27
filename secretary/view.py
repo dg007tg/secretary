@@ -42,9 +42,13 @@ def Home(request):
 
 def AddReport(request):
     report = {}
-    if(len(request.GET) > 0):
+    if(len(request.POST) > 0):
         #get details of report correspond to the date
-        #save data into database
+        try:
+            report = json.loads(request.POST['report'])
+        except Exception(e):
+            return HttpResponse(const.NET_RESPONSE.OPERATION_ERROR)
+        #save data into database and report is dictionary contains all data.
         return HttpResponse(const.NET_RESPONSE.OPERATION_SUCCESS)
     else:
         for flow_name in const.FLOW_NAMES:
