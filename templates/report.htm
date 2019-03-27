@@ -320,7 +320,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="btn-submit-income-details">确定</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancel_income_records()">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!--/.modal-dialog-->
@@ -360,7 +360,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="btn-submit-salary-details">确定</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancel_salary_records()">取消</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!--/.modal-dialog-->
@@ -449,6 +449,7 @@
         var MORTUARY_FEE = 13;
         var INCOME_FEE = 14;
         //store data(define all infomation to be submitted)
+        {%ifequal MODE "ADD"%}
         var data={
             "FOOD_FEE": -1,
             "UTILITY_FEE": -1,
@@ -466,6 +467,10 @@
             "MORTUARY_FEE": -1,
             "INCOME_FEE": -1
         };
+        {%endifequal%}
+        {%ifequal MODE "EDIT"%}
+        var data={{REPORT_DETAILS|safe}}
+        {%endifequal%}
         //define all the names
         var name_list = ["FOOD_FEE",
         "UTILITY_FEE",
@@ -706,7 +711,6 @@
                 }
             }
             if(fee_type>=SUPPORT_FEE && fee_type<=INCOME_FEE){
-                type = 0;
                 if(data[name_list[fee_type]] != -1){
                     num_income_records = data[name_list[fee_type]].length;
                     for(var idx=0; idx<num_income_records; idx++){
@@ -728,8 +732,18 @@
         };
 
         function submit_report(){
+            //specifi fees should be saved using addtional operation
+            var date = new Date();
+            data[name_list[TRASH_FEE]] = [{
+                "date":date.toLocaleDateString(),
+                "name":"垃圾费",
+                "amount":$("#trash-fee").val()}];
+            data[name_list[RENT_FEE]] = [{
+                "date":date.toLocaleDateString(),
+                "name":"租金",
+                "amount":$("#rent-fee").val()}];
             //first of all, checking legality
-            /*var legal_amount_pattern = /^[0-9]+(\.\d{0,2})?$/;
+            var legal_amount_pattern = /^[0-9]+(\.\d{0,2})?$/;
             for(var idx = 0; idx < name_list.length; idx++){
                 if(data[name_list[idx]] == -1){
                     alert("你还没把所有的财务数据登记完！");
@@ -739,17 +753,35 @@
                     alert("存在非法数字输入：数额应当为数字且数字小数位数应小于两位或不存在。");
                     return;
                 }
-            }*/
+            }
             //use a POST request to send report
             var csrf_token = $("input[name='csrfmiddlewaretoken']").val();
             var request_content = {
                 "csrfmiddlewaretoken":csrf_token,
                 "report":JSON.stringify(data)
             };
-            ajaxPost("/user-api/report/add", request_content, function(success){},
-                function(fail){},
-                function(loading){});
-
+            {%ifequal MODE "ADD"%}
+            ajaxPost("/user-api/report/add", request_content, function(success){
+                    alert("新增报表成功！");
+                },
+                function(fail){
+                    alert("新增报表失败！");
+                },
+                function(loading){
+                    alert("系统正在处理！");
+                });
+            {%endifequal%}
+            {%ifequal MODE "EDIT"%}
+            ajaxPost("/user-api/report/edit", request_content, function(success){
+                    alert("修改报表成功！");
+                },
+                function(fail){
+                    alert("修改报表失败！");
+                },
+                function(loading){
+                    alert("系统正在处理！");
+                });
+            {%endifequal%}
         }
 
         function reset_report(){

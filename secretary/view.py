@@ -53,7 +53,7 @@ def AddReport(request):
     else:
         for flow_name in const.FLOW_NAMES:
             report[flow_name] = "0"
-        return render(request, "report.htm", {"FLOWS":report})
+        return render(request, "report.htm", {"FLOWS":report, "MODE":"ADD"})
 
 def ViewReport(request):
     report = {}
@@ -76,16 +76,34 @@ def ViewReport(request):
 
 def EditReport(request):
     report = {}
+    if(len(request.POST) > 0):
+        try:
+            report = json.loads(request.POST["report"])
+        except Exception(e):
+            return HttpResponse(const.NET_RESPONSE.OPERATION_ERROR)
+        #update corresponding report
+        return HttpResponse(const.NET_RESPONSE.OPERATION_SUCCESS)
     if("month" in request.GET):
         #get details of report correspond to the date
         #then fill details in report
         month = request.GET['month']
         #report = ....
+        income_name = ["SUPPORT_FEE","NURSING_FEE","MORTUARY_FEE","INCOME_FEE"]
+        overhead_name = ["FOOD_FEE","UTILITY_FEE","MAINTENANCE_FEE","BUILD_FEE","COMSUMABLES_FEE","FACILITY_FEE","OTHER_FEE","RENT_FEE","TRASH_FEE","RETURNED_NURSING_FEE"]
+        for flow_name in income_name:
+            report[flow_name] = [{"date":"2019-2-11","name":"hello","amount":"233"}]
+        for flow_name in overhead_name:
+            report[flow_name] = [{"date":"2019-2-11","name":"hello","amount":"233"}]
+        report["SALARY_FEE"] = [{"date":"2019-2-11","name":"hello","title":"boss","amount":"233"}]
+
         flows = {}
         for flow_name in const.FLOW_NAMES:
             #flows[flow_name] = report[flow_name]
-            flows[flow_name] = flow_name
-        return render(request, "report.htm", {"FLOWS":flows})
+            sum = 0.0
+            for record in report[flow_name]:
+                sum = sum + float(record["amount"])
+            flows[flow_name] = sum
+        return render(request, "report.htm", {"FLOWS":flows, "MODE":"EDIT", "REPORT_DETAILS":json.dumps(report, ensure_ascii=False)})
     else:
         return render(request, "viewReport.htm", {"MODE":"EDIT"})
 
