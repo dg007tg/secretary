@@ -149,17 +149,15 @@
             $("#btn_register").click(function(){
                 $("#btn_submit_registration").show();
                 var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-                $("#registrationBody").load("user-api/registration/details",
-                    {"csrfmiddlewaretoken":csrf_token},
+                $("#registrationBody").load("/user-api/report/register",
                     function(response,status,xhr){
                         if(status == "success"){
                             $("#registration").modal('show');
                             $("#btn_submit_registration").click(function (){
-                                $("#registrationBody").load("user-api/registration/register",
+                                $("#registrationBody").load("/user-api/report/register",
                                     {
                                         "user_name":$("#user_name").val(),
                                         "password":$("#password").val(),
-                                        "email_address":$("#email_address").val(),
                                         "csrfmiddlewaretoken":csrf_token
                                     },function(response,status,xhr){
                                         $("#btn_submit_registration").hide();

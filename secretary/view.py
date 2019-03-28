@@ -47,8 +47,13 @@ def SignIn(request):
     else:
         return render(request, "login.htm", {})
 
-def RegistrationDetails(request):
-    return render(request, "registration.htm", {})
+def Register(request):
+    if(len(request.POST) > 0):
+        #save user info into database
+        #now all registered users have less power
+        return HttpResponse(const.NET_RESPONSE.OPERATION_SUCCESS)
+    else:
+        return render(request, "registration.htm", {})
 
 def Index(request):
     return render(request, "index.htm", {})
