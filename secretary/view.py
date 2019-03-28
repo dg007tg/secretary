@@ -13,9 +13,39 @@ from django.http import HttpResponse
 from . import const
 import json
 
+#this is a decarator
+def cookie_auth(func):
+    def wrapper(request, *args, **kwargs):
+        cookies = request.get("user_name")
+        if(cookies):
+            #means user pass authentication, return requested pages
+            return func(request)
+        else:
+            return const.NET_RESPONSE.OPERATION_ERROR
+    return wrapper
 
 def SignIn(request):
-    return render(request, "login.htm", {})
+    if(len(request.POST) > 0):
+        #some authenticating here
+        user_name = request.POST.get("user_name")
+        password = request.POST.get("password")
+        try:
+            #search user info in database
+            #user = xxx.get(user_name = user_name)
+            pass
+        except Exception(e):
+            #if not exist
+            return HttpResponse(const.NET_RESPONSE.USER_NOT_EXIST)
+        #if exist, verify password
+        if(user.password == password):
+            index = render(request, "index.htm", {})
+            #if authenticated, set cookies and sessions
+            #cookies must have expire time and should not be changed by javascript
+            return index
+        else:
+            return HttpResponse(const.NET_RESPONSE.PASSWORD_WRONG)
+    else:
+        return render(request, "login.htm", {})
 
 def RegistrationDetails(request):
     return render(request, "registration.htm", {})
@@ -23,6 +53,7 @@ def RegistrationDetails(request):
 def Index(request):
     return render(request, "index.htm", {})
 
+@cookie_auth
 def Home(request):
     if(len(request.GET)>0):
         page = request.GET['page'] if request.GET['page'] else 1
@@ -40,6 +71,7 @@ def Home(request):
     else:
         return render(request, "home.htm", {})
 
+@cookie_auth
 def AddReport(request):
     report = {}
     if(len(request.POST) > 0):
@@ -55,6 +87,7 @@ def AddReport(request):
             report[flow_name] = "0"
         return render(request, "report.htm", {"FLOWS":report, "MODE":"ADD"})
 
+@cookie_auth
 def ViewReport(request):
     report = {}
     if("month" in request.GET):
@@ -74,6 +107,7 @@ def ViewReport(request):
     else:
         return render(request, "viewReport.htm", {"MODE":"READ"})
 
+@cookie_auth
 def EditReport(request):
     report = {}
     if(len(request.POST) > 0):

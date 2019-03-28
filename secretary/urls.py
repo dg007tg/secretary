@@ -22,7 +22,8 @@ from . import settings
 urlpatterns = [
     url(r'^$', view.SignIn),
     url(r'^user-api/registration/details$', view.RegistrationDetails),
-    url(r'^user-api/report$', view.Index),
+    url(r'^user-api/report$', view.SignIn),
+    url(r'^user-api/report/index$', view.Index),
     url(r'^user-api/report/home$', view.Home),
     url(r'^user-api/report/add$', view.AddReport),
     url(r'^user-api/report/view$', view.ViewReport),

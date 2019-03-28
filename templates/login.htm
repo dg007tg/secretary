@@ -124,7 +124,7 @@
             if($("#auto_login").prop("checked")){
                 auto_login = "True";
             }
-            $.post("user-api/validation",
+            $.post("/user-api/report",
                 {
                     user_name:$("#user_name_login").val(),
                     password:$("#password_login").val(),
@@ -133,10 +133,10 @@
                 },function(data, status){
                     if(status == "success"){
                         if(data == "0"){
-                            window.location.href="user-api/user-report";
-                        }else if(data == "-1"){
+                            window.location.href="user-api/report/index";
+                        }else if(data == "2"){
                             $("#err_account").show();
-                        }else if(data == "-2"){
+                        }else if(data == "3"){
                             $("#err_password").show();
                         }
                     }else{
