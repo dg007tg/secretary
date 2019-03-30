@@ -27,6 +27,22 @@ FLOW_NAMES = [
     "MORTUARY_FEE",\
     "INCOME_FEE"]
 
+FEE_TYPES={ "FOOD_FEE" : 0,\
+         "UTILITY_FEE" : 1,\
+         "MAINTENANCE_FEE" : 2,\
+         "BUILD_FEE" : 3,\
+         "COMSUMABLES_FEE" : 4,\
+         "FACILITY_FEE" : 5,\
+         "OTHER_FEE" : 6,\
+         "RENT_FEE" : 7,\
+         "TRASH_FEE" : 8,\
+         "RETURNED_NURSING_FEE" : 9,\
+         "SALARY_FEE" : 10,\
+#income types
+         "SUPPORT_FEE" : 11,\
+         "NURSING_FEE" : 12,\
+         "MORTUARY_FEE" : 13,\
+         "INCOME_FEE" : 14}
 #definition of some responses
 class NET_RESPONSE:
     OPERATION_SUCCESS = "0"

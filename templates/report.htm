@@ -730,7 +730,7 @@
                 }
             }
         };
-
+        
         function submit_report(){
             //specifi fees should be saved using addtional operation
             var date = new Date();
@@ -744,6 +744,8 @@
                 "amount":$("#rent-fee").val()}];
             //first of all, checking legality
             var legal_amount_pattern = /^[0-9]+(\.\d{0,2})?$/;
+            //first of all, checking legality
+            var legal_amount_pattern = /^[0-9]+(\.\d{0,2})?$/;
             for(var idx = 0; idx < name_list.length; idx++){
                 if(data[name_list[idx]] == -1){
                     alert("你还没把所有的财务数据登记完！");
@@ -754,13 +756,16 @@
                     return;
                 }
             }
+
             //use a POST request to send report
             var csrf_token = $("input[name='csrfmiddlewaretoken']").val();
             var request_content = {
                 "csrfmiddlewaretoken":csrf_token,
-                "report":JSON.stringify(data)
+                "report":JSON.stringify(data),
+                "month":date.getFullYear()+"-"+(date.getMonth()+1)
             };
             {%ifequal MODE "ADD"%}
+
             ajaxPost("/user-api/report/add", request_content, function(success){
                     alert("新增报表成功！");
                 },
@@ -768,18 +773,23 @@
                     alert("新增报表失败！");
                 },
                 function(loading){
-                    alert("系统正在处理！");
+                    //alert("系统正在处理！");
                 });
             {%endifequal%}
             {%ifequal MODE "EDIT"%}
             ajaxPost("/user-api/report/edit", request_content, function(success){
-                    alert("修改报表成功！");
+                    if(success == "0"){
+                        alert("修改报表成功！");
+                    }
+                    if(success == "1"){
+                        alert("修改报表失败！");
+                    }
                 },
                 function(fail){
                     alert("修改报表失败！");
                 },
                 function(loading){
-                    alert("系统正在处理！");
+                    //alert("系统正在处理！");
                 });
             {%endifequal%}
         }
