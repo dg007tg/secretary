@@ -8,12 +8,15 @@
 # Copyright:   (c) Administrator 2019
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from . import const
 import json
-
+from secretary_db.models import User
+from secretary_db.db_use import user_operate
+from secretary_db.show_cope import add_report_content,show_report_content,update_report_content
 #this is a decarator
+'''
 def cookie_auth(func):
     def wrapper(request, *args, **kwargs):
         cookies = request.get("user_name")
@@ -23,7 +26,7 @@ def cookie_auth(func):
         else:
             return const.NET_RESPONSE.OPERATION_ERROR
     return wrapper
-
+'''
 def SignIn(request):
     if(len(request.POST) > 0):
         #some authenticating here
@@ -32,16 +35,19 @@ def SignIn(request):
         try:
             #search user info in database
             #user = xxx.get(user_name = user_name)
+            user=User.objects.get(account=user_name)
             pass
-        except Exception(e):
+        except:
             #if not exist
             return HttpResponse(const.NET_RESPONSE.USER_NOT_EXIST)
         #if exist, verify password
         if(user.password == password):
-            index = render(request, "index.htm", {})
+#            index = redirect("/user-api/report/index")
+            
+            print(request.POST)
             #if authenticated, set cookies and sessions
             #cookies must have expire time and should not be changed by javascript
-            return index
+            return HttpResponse(0)
         else:
             return HttpResponse(const.NET_RESPONSE.PASSWORD_WRONG)
     else:
@@ -49,6 +55,12 @@ def SignIn(request):
 
 def Register(request):
     if(len(request.POST) > 0):
+        user_name="root"
+        name=request.POST.get("user_name")
+        pwd=request.POST.get("password")
+        operate="add"
+        authority=1
+        user_operate(user_name,operate,name,pwd,authority)
         #save user info into database
         #now all registered users have less power
         return HttpResponse(const.NET_RESPONSE.OPERATION_SUCCESS)
@@ -58,7 +70,7 @@ def Register(request):
 def Index(request):
     return render(request, "index.htm", {})
 
-@cookie_auth
+#@cookie_auth
 def Home(request):
     if(len(request.GET)>0):
         page = request.GET['page'] if request.GET['page'] else 1
@@ -76,7 +88,7 @@ def Home(request):
     else:
         return render(request, "home.htm", {})
 
-@cookie_auth
+#@cookie_auth
 def AddReport(request):
     report = {}
     if(len(request.POST) > 0):
@@ -86,13 +98,14 @@ def AddReport(request):
         except Exception(e):
             return HttpResponse(const.NET_RESPONSE.OPERATION_ERROR)
         #save data into database and report is dictionary contains all data.
+        add_report_content(report)
         return HttpResponse(const.NET_RESPONSE.OPERATION_SUCCESS)
     else:
         for flow_name in const.FLOW_NAMES:
             report[flow_name] = "0"
         return render(request, "report.htm", {"FLOWS":report, "MODE":"ADD"})
 
-@cookie_auth
+#@cookie_auth
 def ViewReport(request):
     report = {}
     if("month" in request.GET):
@@ -102,25 +115,23 @@ def ViewReport(request):
         #report = ....
         income_name = ["SUPPORT_FEE","NURSING_FEE","MORTUARY_FEE","INCOME_FEE"]
         overhead_name = ["FOOD_FEE","UTILITY_FEE","MAINTENANCE_FEE","BUILD_FEE","COMSUMABLES_FEE","FACILITY_FEE","OTHER_FEE","RENT_FEE","TRASH_FEE","RETURNED_NURSING_FEE"]
-        for flow_name in income_name:
-            report[flow_name] = [{"date":"2019-2-11","name":"hello","amount":"233"}]
-        for flow_name in overhead_name:
-            report[flow_name] = [{"date":"2019-2-11","name":"hello","amount":"233"}]
-        report["SALARY_FEE"] = [{"date":"2019-2-11","name":"hello","title":"boss","amount":"233"}]
+        report=show_report_content(month)   
         report["MODE"] = "READ"
         return render(request, "viewReport.htm", report)
     else:
         return render(request, "viewReport.htm", {"MODE":"READ"})
 
-@cookie_auth
+#@cookie_auth
 def EditReport(request):
     report = {}
     if(len(request.POST) > 0):
         try:
             report = json.loads(request.POST["report"])
-        except Exception(e):
+            month = request.POST["month"]
+        except:
             return HttpResponse(const.NET_RESPONSE.OPERATION_ERROR)
         #update corresponding report
+        update_report_content(month = month, report = report)
         return HttpResponse(const.NET_RESPONSE.OPERATION_SUCCESS)
     if("month" in request.GET):
         #get details of report correspond to the date
@@ -129,18 +140,16 @@ def EditReport(request):
         #report = ....
         income_name = ["SUPPORT_FEE","NURSING_FEE","MORTUARY_FEE","INCOME_FEE"]
         overhead_name = ["FOOD_FEE","UTILITY_FEE","MAINTENANCE_FEE","BUILD_FEE","COMSUMABLES_FEE","FACILITY_FEE","OTHER_FEE","RENT_FEE","TRASH_FEE","RETURNED_NURSING_FEE"]
-        for flow_name in income_name:
-            report[flow_name] = [{"date":"2019-2-11","name":"hello","amount":"233"}]
-        for flow_name in overhead_name:
-            report[flow_name] = [{"date":"2019-2-11","name":"hello","amount":"233"}]
-        report["SALARY_FEE"] = [{"date":"2019-2-11","name":"hello","title":"boss","amount":"233"}]
-
+        
+        report=show_report_content(month)                   
+        
         flows = {}
         for flow_name in const.FLOW_NAMES:
             #flows[flow_name] = report[flow_name]
             sum = 0.0
-            for record in report[flow_name]:
-                sum = sum + float(record["amount"])
+            if(report[flow_name] != -1):
+                for record in report[flow_name]:
+                    sum = sum + float(record["amount"])
             flows[flow_name] = sum
         return render(request, "report.htm", {"FLOWS":flows, "MODE":"EDIT", "REPORT_DETAILS":json.dumps(report, ensure_ascii=False)})
     else:
