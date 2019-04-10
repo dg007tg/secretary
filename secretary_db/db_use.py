@@ -13,8 +13,11 @@ def user_operate(user,operate,name,pwd,authority=1):
         return config.USER_NOT_EXIST
     if permit.authority==config.ROOT:
         if operate=="add":
-            user_add=User(account=name,password=pwd,authority=authority)
-            user_add.save()
+            try:
+                User.objects.get(account = name)
+            except User.DoesNotExist:
+                user_add=User(account=name,password=pwd,authority=authority)
+                user_add.save()
         
         elif operate=="delete":
             user_delete=User.objects.get(account=name)
@@ -144,3 +147,12 @@ def delete_report_by_month(month):
         else:
             fees.delete()
     return True
+
+def get_number_of_reports(_now):
+    import datetime
+    from dateutil.relativedelta import relativedelta
+    set = Salary.objects.order_by('date')
+    _from = datetime.datetime(set[0].date.year,set[0].date.month,1)
+    _now = datetime.datetime(_now.year,_now.month,1)
+    delta = relativedelta(_now, _from).months
+    return delta

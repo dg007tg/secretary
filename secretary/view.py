@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from . import const
 import json
 from secretary_db.models import User
-from secretary_db.db_use import user_operate
+from secretary_db.db_use import user_operate, get_report_by_month, get_number_of_reports
 from secretary_db.show_cope import add_report_content,show_report_content,update_report_content
 #this is a decarator
 '''
@@ -72,11 +72,46 @@ def Index(request):
 
 #@cookie_auth
 def Home(request):
+    def cal_report_total_amount(report):
+        sum = 0.0
+        for item in report.keys:
+            for each in report[item]:
+                sum = sum + float(report[item][each])
+        return sum
     if(len(request.GET)>0):
-        page = request.GET['page'] if request.GET['page'] else 1
-        rows = request.GET['rows'] if request.GET['rows'] else 10
+        page = int(request.GET['page']) if request.GET['page'] else 1
+        rows = int(request.GET['rows']) if request.GET['rows'] else 10
         sortOrder = request.GET['sortOrder'] if request.GET['sortOrder'] else "desc"
-        ret = {"total":2,"rows":[{
+        import datetime
+        from dateutil.relativedelta import relativedelta
+        now = datetime.datetime.now()
+        months = []
+        for each in range(page * rows):
+            months.append(each)
+        
+		#calculate amount correspond to each report
+        rows = []
+        ref_month = datetime.datetime(now.year,now.month,15)
+        for month in months:
+            date = ref_month - relativedelta(months = month)
+            report = get_report_by_month("%s-%s" % (date.year, date.month))
+            if(-1 in report.values()):
+                continue
+            else:
+                cal_report_total_amount(report)
+                rows.append({
+                    "date":"%s/%s" % (date.year, date.month),
+                    "amount":cal_report_total_amount(report)
+                })
+				
+		#calculate total number of reports
+        total = get_number_of_reports(now)
+        ret = {
+            "total":total,
+            "rows":rows
+        }
+        '''
+        ret = {"total":2\de,"rows":[{
                     "date":"2019/2",
                     "amount":"123"
                 },
@@ -84,6 +119,7 @@ def Home(request):
                     "date":"2019/1",
                     "amount":"293"
                 }]}
+        '''
         return HttpResponse(json.dumps(ret, ensure_ascii = False))
     else:
         return render(request, "home.htm", {})
