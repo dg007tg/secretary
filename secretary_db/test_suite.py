@@ -1,0 +1,29 @@
+REPORT_EXAMPLE = {
+        "SALARY_FEE":[
+                {
+                    "name":"me",
+                    "title":"cool_boy",
+                    "amount":"233",
+                    "date":"2018-2-2"
+                    },
+                {
+                    "name":"girl_friend",
+                    "title":"honey",
+                    "amount":"521",
+                    "date":"2018-2-3"
+                    }
+            ],
+        "NURSING_FEE":[
+                {
+                    "date":"2018-2-5",
+                    "name":"a",
+                    "amount":"1000"
+                    },
+                {
+                    "date":"2018-2-9",
+                    "name":"b",
+                    "amount":"1200"
+                    }
+            ]
+
+    }
